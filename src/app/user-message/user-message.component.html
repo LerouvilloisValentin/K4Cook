@@ -1,0 +1,41 @@
+<div class="flex pb-8">
+  <div class="flex flex-col text-left">
+    <h2 class="font-semibold">
+      {{ message?.user?.firstName }} {{ message?.user?.lastName }}
+    </h2>
+  </div>
+  <div class="flex-1 pl-4">
+    <p class="text-gray-600">{{ message?.content }}</p>
+  </div>
+  <div class="flex justify-end items-end pt-8 pr-10">
+    @if(!thumbsDown){
+    <img
+      (click)="onClickDislike()"
+      class="w-7 h-7 cursor-pointer"
+      src="assets/pouce-bas.png"
+      alt=""
+    />
+    } @if(thumbsDown){
+    <img
+      (click)="onClickDislike()"
+      class="w-7 h-7 cursor-pointer"
+      src="assets/pouce-bas-bleu.png"
+      alt=""
+    />
+    } @if(!thumbsUp){
+    <img
+      (click)="onClickLike()"
+      class="w-5 h-5 cursor-pointer"
+      src="assets/pouce-haut.png"
+      alt=""
+    />
+    } @if(thumbsUp){
+    <img
+      (click)="onClickLike()"
+      class="w-5 h-5 cursor-pointer"
+      src="assets/pouce-haut-bleu.png"
+      alt=""
+    />
+    }
+  </div>
+</div>

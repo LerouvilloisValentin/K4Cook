@@ -1,0 +1,66 @@
+<form
+  [formGroup]="loginForm"
+  (ngSubmit)="submit()"
+  class="max-w-sm mx-auto pt-28"
+>
+  <div class="mb-5">
+    <label for="email" class="block mb-2 text-sm font-medium text-gray-900"
+      >Email
+    </label>
+    <input
+      id="email"
+      type="email"
+      formControlName="email"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+    />
+    @if(isFormNameInvalid("email")){
+    <div class="flex mt-2">
+      @if(hasNameError("email", "email")){
+      <div>
+        <span class="text-red-700 text-sm">Format invalide</span>
+      </div>
+      } @if(hasNameError("email", "required")){
+      <div>
+        <span class="text-red-700 text-sm">Requis</span>
+      </div>
+      }
+    </div>
+    }
+  </div>
+
+  <div class="mb-5">
+    <label for="password" class="block mb-2 text-sm font-medium text-gray-900"
+      >Mot de passe
+    </label>
+    <input
+      id="password"
+      type="password"
+      formControlName="password"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+    />
+    @if(isFormNameInvalid("password")){
+    <div class="flex mt-2">
+      @if(hasNameError("password", "required")){
+      <div>
+        <span class="text-red-700 text-sm">Requis</span>
+      </div>
+      }
+    </div>
+    }
+  </div>
+  @if (loginError) {
+  <div class="text-red-700 text-sm mt-2">
+    {{ loginError }}
+  </div>
+  }
+  <div class="flex mt-2 justify-end pr-4 pt-4">
+    <button
+      type="submit"
+      [disabled]="!loginForm.valid"
+      class="bg-blue-500 hover:bg-blue-700 disabled:bg-gray-800 cursor-pointer text-white font-bold py-2 px-4 rounded"
+    >
+      Se connecter
+    </button>
+  </div>
+</form>
+

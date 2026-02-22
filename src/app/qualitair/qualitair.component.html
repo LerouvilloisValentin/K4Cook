@@ -1,0 +1,319 @@
+<div class="flex justify-center">
+  <div
+    class="flex justify-center items-center bg-violet-200 rounded-full p-4 w-[30%] gap-x-4"
+  >
+    <select
+      class="bg-transparent outline-none text-lg w-[90%]"
+      [(ngModel)]="research"
+      (change)="loadAirQualities()"
+    >
+      <option value="" disabled selected>Choisissez une commune</option>
+      <option value="Nantes">Nantes</option>
+      <option value="Angers">Angers</option>
+      <option value="Le-Mans">Le-Mans</option>
+      <option value="Saint-Nazaire">Saint-Nazaire</option>
+      <option value="Roche-Sur-Yon">Roche-Sur-Yon</option>
+      <option value="Cholet">Cholet</option>
+      <option value="Rezé">Rezé</option>
+    </select>
+  </div>
+</div>
+
+<div class="airquality-container mt-10" *ngIf="airQuality">
+  <div class="text-center mb-4">
+    <h2 class="text-2xl font-bold">
+      Qualié de l'air - {{ airQuality.municipality.name }}
+    </h2>
+  </div>
+  <div class="content-wrapper flex flex-col items-center">
+    <div class="flex flex-col items-center mb-6">
+      <h3 class="text-xl font-bold mb-2">Indice de qualité de l'air</h3>
+      <h2 class="text-lg font-semibold mb-2">(IQA)</h2>
+      <div
+        [ngClass]="getAqiColor(airQuality.aqi)"
+        class="w-32 h-32 flex items-center justify-center rounded-md"
+      >
+        {{ airQuality.aqi }}
+      </div>
+    </div>
+    <div class="flex flex-wrap md:flex-nowrap justify-center w-full">
+      <div class="flex-1 mx-6 mb-6 md:mb-0">
+        <h3 class="text-center font-bold text-xl mb-4">Polluants</h3>
+        <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-300 text-gray-700">
+              <tr>
+                <th class="px-6 py-3 text-left text-xl font-medium">
+                  Polluant
+                </th>
+                <th class="px-6 py-3 text-left text-xl font-medium">
+                  Quantité
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr *ngFor="let particle of getPollutants()">
+                <td class="px-6 py-4">{{ particle.name }}</td>
+                <td class="px-6 py-4">
+                  {{ particle.quantity }} {{ particle.unit }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="flex-1 mx-6 mb-6 md:mb-0">
+        <h3 class="text-center font-bold text-xl mb-4">Données météo</h3>
+        <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-300 text-gray-700">
+              <tr>
+                <th class="px-6 py-3 text-left text-xl font-medium">Données</th>
+                <th class="px-6 py-3 text-left text-xl font-medium">Valeur</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr *ngFor="let nonPollutant of getNonPollutants()">
+                <td class="px-6 py-4">{{ nonPollutant.name }}</td>
+                <td class="px-6 py-4">
+                  {{ nonPollutant.quantity }} {{ nonPollutant.unit }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="aqi-table-container mt-10">
+  <h3 class="text-center font-bold text-xl mb-4">
+    À propos des niveaux de qualité de l'air
+  </h3>
+  <table class="w-full border-collapse text-center shadow-md">
+    <thead>
+      <tr>
+        <th class="border p-3 bg-gray-100">IQA</th>
+        <th class="border p-3 bg-gray-100">Niveau de pollution de l'air</th>
+        <th class="border p-3 bg-gray-100">Impact sur la santé</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="border p-3">0 - 50</td>
+        <td class="border p-3 bg-green-500 text-white">Bon</td>
+        <td class="border p-3">
+          La qualité de l'air est jugée satisfaisante, et la pollution de l'air
+          pose peu ou pas de risque.
+        </td>
+      </tr>
+      <tr>
+        <td class="border p-3">51 - 100</td>
+        <td class="border p-3 bg-yellow-500">Modéré</td>
+        <td class="border p-3">
+          La qualité de l'air est acceptable. Cependant, pour certains
+          polluants, il peut y avoir un risque sur la santé pour un très petit
+          nombre de personnes inhabituellement sensibles à la pollution
+          atmosphérique.
+        </td>
+      </tr>
+      <tr>
+        <td class="border p-3">101 - 150</td>
+        <td class="border p-3 bg-orange-500">
+          Mauvais pour les groupes sensibles
+        </td>
+        <td class="border p-3">
+          La qualité de l'air est acceptable; Cependant, pour certains
+          polluants, il peut y avoir un problème de santé modérée pour un très
+          petit nombre de personnes qui sont particulièrement sensibles à la
+          pollution de l'air.
+        </td>
+      </tr>
+      <tr>
+        <td class="border p-3">151 - 200</td>
+        <td class="border p-3 bg-red-500 text-white">Mauvais</td>
+        <td class="border p-3">
+          Tout le monde peut commencer à ressentir des effets sur la santé; les
+          membres des groupes sensibles peuvent ressentir des effets de santé
+          plus graves.
+        </td>
+      </tr>
+      <tr>
+        <td class="border p-3">201 - 300</td>
+        <td class="border p-3 bg-purple-500 text-white">Très mauvais</td>
+        <td class="border p-3">
+          Avertissements de santé de conditions d'urgence. Toute la population
+          est plus susceptible d'être affecté.
+        </td>
+      </tr>
+      <tr>
+        <td class="border p-3">300+</td>
+        <td class="border p-3 bg-gray-800 text-white">Dangereux</td>
+        <td class="border p-3">
+          Alerte de santé: tout le monde peut ressentir des effets de santé plus
+          graves.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div
+  class="bg-gray-100 font-sans flex items-center justify-center min-h-screen"
+>
+  <div class="container mx-auto p-4">
+    <h3 class="text-center font-bold text-xl mb-4">
+      Tableau des Polluants et leurs Seuils Critiques pour la Santé
+    </h3>
+    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-300 text-gray-700">
+          <tr>
+            <th
+              class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+            >
+              Polluant
+            </th>
+            <th
+              class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+            >
+              Abréviation
+            </th>
+            <th
+              class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+            >
+              Seuil Critique
+            </th>
+            <th
+              class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+            >
+              Description
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr>
+            <td class="px-6 py-4">Dioxyde d'azote</td>
+            <td class="px-6 py-4">NO2</td>
+            <td class="px-6 py-4">40 µg/m³ (moyenne annuelle)</td>
+            <td class="px-6 py-4">
+              Le NO2 est un gaz irritant pour les voies respiratoires. Des
+              expositions prolongées à des concentrations élevées peuvent
+              aggraver l'asthme et réduire la fonction pulmonaire.
+            </td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4">Ozone</td>
+            <td class="px-6 py-4">O3</td>
+            <td class="px-6 py-4">100 µg/m³ (8 heures)</td>
+            <td class="px-6 py-4">
+              L'ozone est un gaz très oxydant qui peut provoquer des irritations
+              des yeux, du nez, de la gorge et des poumons. Il peut également
+              réduire la capacité pulmonaire et exacerber les maladies
+              respiratoires.
+            </td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4">Particules en suspension PM10</td>
+            <td class="px-6 py-4">PM10</td>
+            <td class="px-6 py-4">40 µg/m³ (moyenne annuelle)</td>
+            <td class="px-6 py-4">
+              Les PM10 sont des particules fines qui peuvent pénétrer dans les
+              poumons. Elles sont associées à des effets négatifs sur la santé
+              cardiovasculaire et respiratoire.
+            </td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4">Particules en suspension PM2.5</td>
+            <td class="px-6 py-4">PM25</td>
+            <td class="px-6 py-4">25 µg/m³ (moyenne annuelle)</td>
+            <td class="px-6 py-4">
+              Les PM2.5 sont des particules ultra-fines capables de pénétrer
+              profondément dans les poumons et de passer dans le système
+              sanguin. Elles sont particulièrement dangereuses pour la santé,
+              augmentant le risque de maladies cardiaques, pulmonaires, et de
+              cancer.
+            </td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4">Dioxyde de soufre</td>
+            <td class="px-6 py-4">SO2</td>
+            <td class="px-6 py-4">180 µg/m³ (moyenne horaire)</td>
+            <td class="px-6 py-4">
+              Le SO2 est un gaz irritant qui peut provoquer des problèmes
+              respiratoires, aggravant les maladies pulmonaires et réduisant la
+              fonction pulmonaire. Une exposition prolongée peut aussi provoquer
+              des effets sur le système cardiovasculaire.
+            </td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4">Température</td>
+            <td class="px-6 py-4">T</td>
+            <td class="px-6 py-4">Pas de seuil critique</td>
+            <td class="px-6 py-4">
+              La température n'est pas un polluant, mais elle influence les
+              concentrations de certains polluants dans l'air. Les températures
+              élevées peuvent, par exemple, favoriser la formation d'ozone.
+            </td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4">Humidité relative</td>
+            <td class="px-6 py-4">H</td>
+            <td class="px-6 py-4">Pas de seuil critique</td>
+            <td class="px-6 py-4">
+              L'humidité n'est pas directement un polluant, mais elle peut
+              affecter la dispersion des polluants et l'impact sur la santé. Un
+              air très sec ou très humide peut aggraver les symptômes des
+              maladies respiratoires.
+            </td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4">Pression atmosphérique</td>
+            <td class="px-6 py-4">P</td>
+            <td class="px-6 py-4">Pas de seuil critique</td>
+            <td class="px-6 py-4">
+              La pression atmosphérique influence la météo et peut affecter la
+              concentration de certains polluants. Une pression élevée est
+              souvent associée à des conditions météorologiques stables, qui
+              peuvent piéger les polluants.
+            </td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4">Vent</td>
+            <td class="px-6 py-4">W</td>
+            <td class="px-6 py-4">Pas de seuil critique</td>
+            <td class="px-6 py-4">
+              La vitesse du vent n'est pas un polluant, mais elle affecte la
+              dispersion des polluants. Un vent faible peut permettre aux
+              polluants de s'accumuler, tandis qu'un vent fort disperse les
+              polluants, réduisant leur concentration.
+            </td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4">Rafales de vent</td>
+            <td class="px-6 py-4">WG</td>
+            <td class="px-6 py-4">Pas de seuil critique</td>
+            <td class="px-6 py-4">
+              Similaire au vent, les rafales peuvent aider à disperser les
+              polluants, mais elles ne sont pas un indicateur direct de la
+              qualité de l'air.
+            </td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4">Point de rosée</td>
+            <td class="px-6 py-4">Dew</td>
+            <td class="px-6 py-4">Pas de seuil critique</td>
+            <td class="px-6 py-4">
+              Le point de rosée est la température à laquelle l'air doit être
+              refroidi pour devenir saturé d'humidité. Ce n'est pas un polluant,
+              mais il peut affecter la formation de certains types de brouillard
+              ou de nuages.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="space-y-8 pr-80 pl-80 pt-14 flex flex-col gap-2">
+  <div class="flex justify-center">
+    <div
+      class="flex justify-center items-center bg-violet-200 rounded-full p-4 w-[30%] gap-x-4"
+    >
+        <input
+          type="text"
+          class="bg-transparent outline-none text-lg w-[90%]"
+          placeholder="Recherche par email"
+          [(ngModel)]="search"
+          (change)="searchUsers()"
+          (ngModelChange)="searchUsers()"
+        />
+    </div>
+  </div>
+  @for(user of users; track $index){
+  <app-user-suspend
+    [user]="user"
+    (onSuspend)="suspendUser($event)"
+    (onReintegrate)="reintegrateUser($event)"
+  />
+  }
+</div>

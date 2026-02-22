@@ -1,0 +1,95 @@
+<header>
+  <nav class="bg-white border-gray-200">
+    <div class="flex flex-row items-center justify-between ml-16 p-4">
+      <div>
+        <a
+          [routerLink]="['/forum']"
+          class="flex items-center space-x-3 rtl:space-x-reverse"
+        >
+          <span
+            class="self-center text-3xl font-semibold whitespace-nowrap text-green-900"
+            >K4Cook</span
+          >
+        </a>
+        <a
+        *ngIf="!isLoggedIn"
+        [routerLink]="['/forum']"
+        class="flex items-center space-x-3 rtl:space-x-reverse mt-2"
+
+        >
+          <span class="text-sm font-semibold whitespace-nowrap underline"
+          >Accueil</span
+          >
+        </a>
+      </div>
+      <div class="flex justify-center mr-16 ">
+
+        <ul class="font-medium flex flex-row space-x-2">
+        <div class="flex flex-start">
+          <li>
+            <a
+            *ngIf="isLoggedIn"
+              [routerLink]="['/forum']"
+              routerLinkActive="font-bold underline"
+              class="block py-2 px-3 rounded "
+              >Accueil</a
+            >
+          </li>
+          </div>
+          <li>
+          <a
+          *ngIf="isLoggedIn"
+            [routerLink]="['/setting']"
+            routerLinkActive="font-bold underline"
+            class="block py-2 px-3 rounded "
+            >Paramètre</a
+          >
+        </li>
+            <li *ngIf="isAdmin">
+              <a
+                [routerLink]="['/userManagement']"
+                routerLinkActive="font-bold underline"
+                class="block py-2 px-3 rounded"
+                >Gestion utilisateur</a
+              >
+          </li>
+          </ul>
+        </div>
+          <div class="flex justify-end mr-16">
+            <ul class="font-medium flex flex-row space-x-4">
+          <!-- Afficher seulement si non connecté -->
+          <li *ngIf="!isLoggedIn">
+            <a
+              [routerLink]="['/login']"
+              routerLinkActive="font-bold"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="block py-2 px-3 rounded "
+              >Se connecter</a
+            >
+          </li>
+          <li *ngIf="!isLoggedIn">
+            <a
+              [routerLink]="['/register']"
+              routerLinkActive ="font-bold"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="block py-2 px-3 rounded "
+              >S'enregistrer</a
+            >
+          </li>
+          <!-- Afficher seulement si connecté -->
+           <div class="mt-2">
+          <li *ngIf="isLoggedIn">
+            <a
+              (click)="logout()"
+              class="bg-gray-800 hover:bg-red-800 disabled:bg-grey-800 cursor-pointer text-white pb-2 py-1 px-2 rounded"
+              >Se déconnecter</a
+            >
+          </li>
+        </div>
+        </ul>
+        </div>
+
+      </div>
+
+  </nav>
+</header>

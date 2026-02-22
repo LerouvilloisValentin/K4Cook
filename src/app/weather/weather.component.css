@@ -1,0 +1,18 @@
+.weather-container {
+  background-color: #e8ffe4;
+  border: 2px solid #6aa84f;
+  border-radius: 10px;
+  padding: 20px;
+  padding-bottom: 5%;
+  margin: 20px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.arrow {
+  display: inline-block;
+  font-weight: 600;
+  margin-right: 20px;
+  color: #2e7d32;
+
+  transition: transform 1s ease;
+}
