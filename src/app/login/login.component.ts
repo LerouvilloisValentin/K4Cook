@@ -25,7 +25,7 @@ export class LoginComponent extends SubscribeManagementComponent {
   constructor(
     private formBuilder: NonNullableFormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {
     super();
   }
@@ -45,18 +45,19 @@ export class LoginComponent extends SubscribeManagementComponent {
       email: this.loginForm.value.email || '',
       password: this.loginForm.value.password || '',
     };
-    const subscription = this.authService.login(loginBody).subscribe( {
+    const subscription = this.authService.login(loginBody).subscribe({
       next: () => {
         this.loginError = null;
-      this.router.navigateByUrl('/forum');
+        this.router.navigateByUrl('/home');
       },
-      error:(error)=>{
+      error: (error) => {
         if (error.status === 401 || 403) {
-        this.loginError = 'Email ou mot de passe incorrect.';
-      } else {
-        this.loginError = 'Une erreur est survenue. Veuillez réessayer plus tard.';
-      }
-      }
+          this.loginError = 'Email ou mot de passe incorrect.';
+        } else {
+          this.loginError =
+            'Une erreur est survenue. Veuillez réessayer plus tard.';
+        }
+      },
     });
     this.addSubscription(subscription);
   }

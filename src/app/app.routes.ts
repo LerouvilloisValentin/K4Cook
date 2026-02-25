@@ -4,11 +4,13 @@ import { RegisterComponent } from './register/register.component';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { adminAuthGuard } from './admin-auth.guard';
 import { SettingComponent } from './setting/setting.component';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'forum', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'setting', component: SettingComponent },
   {
     path: 'userManagement',

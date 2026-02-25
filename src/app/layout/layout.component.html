@@ -13,7 +13,7 @@
         </a>
         <a
         *ngIf="!isLoggedIn"
-        [routerLink]="['/forum']"
+        [routerLink]="['/home']"
         class="flex items-center space-x-3 rtl:space-x-reverse mt-2"
 
         >
@@ -29,7 +29,7 @@
           <li>
             <a
             *ngIf="isLoggedIn"
-              [routerLink]="['/forum']"
+              [routerLink]="['/home']"
               routerLinkActive="font-bold underline"
               class="block py-2 px-3 rounded "
               >Accueil</a
