@@ -1,1 +1,9 @@
-<button (click)="onRemoveAccount()"> Supprimer mon compte</button>
+<button (click)="openDeleteModal()"> Supprimer mon compte</button>
+
+<app-modal
+  [isOpen]="isModalOpen"
+  title="Supprimer mon compte"
+  message="Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."
+  (confirm)="onRemoveAccount()"
+  (cancel)="closeModal()">
+</app-modal>
