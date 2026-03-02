@@ -13,10 +13,12 @@ export class SettingComponent {
   constructor(private userSettingService: UserSettingService) {}
 
   onRemoveAccount() {
-    const sub = this.userSettingService.getUser().subscribe((value: any[]) => {
-      this.users = value;
-      console.log('user', this.users);
-    });
+    const sub = this.userSettingService
+      .deleteOwnAccount()
+      .subscribe((value: any[]) => {
+        this.users = value;
+        console.log('user', this.users);
+      });
     console.log('sub', sub);
   }
 }

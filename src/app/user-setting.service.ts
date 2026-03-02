@@ -14,4 +14,8 @@ export class UserSettingService {
   getUser() {
     return this.http.get<User[]>(`${this.url}`);
   }
+
+  deleteOwnAccount() {
+    return this.http.delete<User[]>(`${this.url}`);
+  }
 }
