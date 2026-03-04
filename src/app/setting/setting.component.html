@@ -1,4 +1,10 @@
-<button (click)="openDeleteModal()"> Supprimer mon compte</button>
+<div class="flex justify-center pt-8">
+  <app-button
+    label="Supprimer mon compte"
+    type="danger"
+    (clicked)="openDeleteModal()">
+  </app-button>
+  </div>
 
 <app-modal
   [isOpen]="isModalOpen"
