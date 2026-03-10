@@ -5,11 +5,13 @@ import { UserManagementComponent } from './user-management/user-management.compo
 import { adminAuthGuard } from './admin-auth.guard';
 import { SettingComponent } from './setting/setting.component';
 import { HomeComponent } from './home/home.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'home', component: HomeComponent },
   { path: 'setting', component: SettingComponent },
   {

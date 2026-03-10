@@ -10,7 +10,6 @@ export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(false);
   loggedIn$ = this.loggedIn.asObservable();
 
-
   constructor(private http: HttpClient) {
     this.checkLoginStatus();
   }
@@ -66,7 +65,7 @@ export class AuthService {
         if (value.id) {
           this.setAuthId(value.id);
         }
-      })
+      }),
     );
   }
 
@@ -82,7 +81,11 @@ export class AuthService {
         if (value.id) {
           this.setAuthId(value.id);
         }
-      })
+      }),
     );
+  }
+
+  forgotPassword(email: string) {
+    return this.http.post(`${this.url}/forgot-password?email=${email}`, {});
   }
 }
