@@ -1,4 +1,4 @@
-<form
+<!-- <form
   [formGroup]="registerForm"
   (ngSubmit)="submit()"
   class="max-w-sm mx-auto pt-28"
@@ -111,4 +111,32 @@
       S'enregistrer
     </button>
   </div>
-</form>
+</form> -->
+
+
+<div [ngSwitch]="step">
+
+  <div *ngSwitchCase="1"
+  class="main">
+  <div>
+    <p>Je m'inscris en tant que :</p>
+    <div class="element">
+      <button class="choice-btn" >Client</button>
+      <button class="choice-btn">Cuisinier à domicile</button>
+    </div>
+  </div>
+  </div>
+
+  <div *ngSwitchCase="2">
+    <h2>Étape 2</h2>
+  </div>
+
+  <div *ngSwitchCase="3">
+    <h2>Étape 3</h2>
+  </div>
+
+</div>
+<div class="container-button">
+  <button class="nav-btn primary" (click)="previous()" [disabled]="step === 1">Précédent</button>
+  <button class="nav-btn secondary" (click)="next()" [disabled]="step === 3">Suivant</button>
+</div>

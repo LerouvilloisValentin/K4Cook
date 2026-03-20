@@ -8,11 +8,12 @@ import { AuthService } from '../auth/auth.service';
 import { SubscribeManagementComponent } from '../subscribe-management/subscribe-management.component';
 import { Router } from '@angular/router';
 import { UserManagementService } from '../user-management.service';
+import { NgSwitch, NgSwitchCase } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgSwitch, NgSwitchCase],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
@@ -30,12 +31,13 @@ export class RegisterComponent
     firstName: ['', Validators.required],
   });
   emailAlreadyUsed = false;
+  step = 1;
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
     private authService: AuthService,
     private userManagementService: UserManagementService,
-    private router: Router
+    private router: Router,
   ) {
     super();
   }
@@ -44,6 +46,14 @@ export class RegisterComponent
     const mail = this.userManagementService.getAllMail().subscribe((value) => {
       console.log(value);
     });
+  }
+
+  next() {
+    this.step++;
+  }
+
+  previous() {
+    this.step--;
   }
 
   isFormNameInvalid(name: string) {
