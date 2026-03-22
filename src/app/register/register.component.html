@@ -4,8 +4,20 @@
   class="max-w-sm mx-auto pt-28"
 >
   <div class="element">
-    <button class="choice-btn">Client</button>
-    <button class="choice-btn">Cuisinier à domicile</button>
+    <button
+      (click)="clientChoice()"
+      class="choice-btn"
+      [class.active]="selectedRole === 'client'"
+    >
+      Client
+    </button>
+    <button
+      (click)="cookChoice()"
+      class="choice-btn"
+      [class.active]="selectedRole === 'cook'"
+    >
+      Cuisinier à domicile
+    </button>
   </div>
   <div class="mb-5">
     <label for="email" class="block mb-2 text-sm font-medium text-gray-900"

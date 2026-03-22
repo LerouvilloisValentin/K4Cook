@@ -13,7 +13,7 @@ import { NgSwitch, NgSwitchCase } from '@angular/common';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, NgSwitch, NgSwitchCase],
+  imports: [ReactiveFormsModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
@@ -29,8 +29,10 @@ export class RegisterComponent
     ],
     lastName: ['', Validators.required],
     firstName: ['', Validators.required],
+    postalCode: ['', Validators.required],
   });
   emailAlreadyUsed = false;
+  selectedRole: 'client' | 'cook' | null = null;
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
@@ -63,6 +65,7 @@ export class RegisterComponent
       password: this.registerForm.value.password || '',
       lastName: this.registerForm.value.lastName || '',
       firstName: this.registerForm.value.firstName || '',
+      postalCode: this.registerForm.value.postalCode || '',
     };
 
     const subscription = this.userManagementService
@@ -87,5 +90,13 @@ export class RegisterComponent
   }
   resetEmailAlreadyUsed() {
     this.emailAlreadyUsed = false;
+  }
+
+  clientChoice() {
+    this.selectedRole = 'client';
+  }
+
+  cookChoice() {
+    this.selectedRole = 'cook';
   }
 }
