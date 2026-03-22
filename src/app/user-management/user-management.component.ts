@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DestroyRef, inject } from '@angular/core';
 import { UserManagementService } from '../user-management.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserSuspendComponent } from '../user-suspend/user-suspend.component';
 import { User } from '../user.model';
 import { SubscribeManagementComponent } from '../subscribe-management/subscribe-management.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-user-management',
@@ -19,6 +20,7 @@ export class UserManagementComponent
 {
   users: User[] = [];
   search: string = '';
+  private destroyRef = inject(DestroyRef);
 
   constructor(private userManagementService: UserManagementService) {
     super();
@@ -31,22 +33,20 @@ export class UserManagementComponent
   loadUsers() {
     const sub = this.userManagementService
       .getUser()
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value: any[]) => {
         this.users = value;
       });
-
-    this.addSubscription(sub);
   }
 
   searchUsers() {
     if (this.search && this.search.length > 3) {
       const sub = this.userManagementService
         .searchUsersByEmail(this.search)
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((value: any[]) => {
           this.users = value;
         });
-
-      this.addSubscription(sub);
     } else if (this.search.length === 0) {
       this.loadUsers();
     }
@@ -60,20 +60,18 @@ export class UserManagementComponent
 
     const sub = this.userManagementService
       .suspendUser(id, days)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value: any) => {
         this.loadUsers();
       });
-
-    this.addSubscription(sub);
   }
 
   reintegrateUser(id: number) {
     const sub = this.userManagementService
       .reintegrateUser(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value: any) => {
         this.loadUsers();
       });
-
-    this.addSubscription(sub);
   }
 }

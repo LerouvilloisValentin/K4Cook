@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DestroyRef, inject } from '@angular/core';
 import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -8,8 +8,7 @@ import { AuthService } from '../auth/auth.service';
 import { SubscribeManagementComponent } from '../subscribe-management/subscribe-management.component';
 import { Router } from '@angular/router';
 import { UserManagementService } from '../user-management.service';
-import { NgSwitch, NgSwitchCase } from '@angular/common';
-
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -30,9 +29,11 @@ export class RegisterComponent
     lastName: ['', Validators.required],
     firstName: ['', Validators.required],
     postalCode: ['', Validators.required],
+    role: ['', Validators.required],
   });
   emailAlreadyUsed = false;
   selectedRole: 'client' | 'cook' | null = null;
+  private destroyRef = inject(DestroyRef);
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
@@ -66,27 +67,26 @@ export class RegisterComponent
       lastName: this.registerForm.value.lastName || '',
       firstName: this.registerForm.value.firstName || '',
       postalCode: this.registerForm.value.postalCode || '',
+      role: this.registerForm.value.role || '',
     };
 
-    const subscription = this.userManagementService
+    this.userManagementService
       .getAllMail()
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((emails) => {
         if (emails.includes(registerBody.email)) {
-          console.log('email existe déjà');
           this.emailAlreadyUsed = true;
-          console.log('this.emailAlreadyUsed', this.emailAlreadyUsed);
+          throw new Error('EMAIL_EXISTS');
         } else {
           this.emailAlreadyUsed = false;
-
-          const registerSub = this.authService
+          this.authService
             .register(registerBody)
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => {
               this.router.navigateByUrl('/');
             });
-          this.addSubscription(registerSub);
         }
       });
-    this.addSubscription(subscription);
   }
   resetEmailAlreadyUsed() {
     this.emailAlreadyUsed = false;
@@ -94,9 +94,11 @@ export class RegisterComponent
 
   clientChoice() {
     this.selectedRole = 'client';
+    this.registerForm.patchValue({ role: 'client' });
   }
 
   cookChoice() {
     this.selectedRole = 'cook';
+    this.registerForm.patchValue({ role: 'cook' });
   }
 }

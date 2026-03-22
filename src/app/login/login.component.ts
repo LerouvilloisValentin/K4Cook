@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import {
   Validators,
   NonNullableFormBuilder,
@@ -7,6 +7,7 @@ import {
 import { AuthService } from '../auth/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { SubscribeManagementComponent } from '../subscribe-management/subscribe-management.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,7 @@ export class LoginComponent extends SubscribeManagementComponent {
     password: ['', Validators.required],
   });
   loginError: string | null = null;
+  private destroyRef = inject(DestroyRef);
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
@@ -45,20 +47,22 @@ export class LoginComponent extends SubscribeManagementComponent {
       email: this.loginForm.value.email || '',
       password: this.loginForm.value.password || '',
     };
-    const subscription = this.authService.login(loginBody).subscribe({
-      next: () => {
-        this.loginError = null;
-        this.router.navigateByUrl('/home');
-      },
-      error: (error) => {
-        if (error.status === 401 || 403) {
-          this.loginError = 'Email ou mot de passe incorrect.';
-        } else {
-          this.loginError =
-            'Une erreur est survenue. Veuillez réessayer plus tard.';
-        }
-      },
-    });
-    this.addSubscription(subscription);
+    this.authService
+      .login(loginBody)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.loginError = null;
+          this.router.navigateByUrl('/home');
+        },
+        error: (error) => {
+          if (error.status === 401 || 403) {
+            this.loginError = 'Email ou mot de passe incorrect.';
+          } else {
+            this.loginError =
+              'Une erreur est survenue. Veuillez réessayer plus tard.';
+          }
+        },
+      });
   }
 }

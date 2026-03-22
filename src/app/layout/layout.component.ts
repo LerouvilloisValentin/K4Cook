@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DestroyRef, inject } from '@angular/core';
 import { RouterLink, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { SubscribeManagementComponent } from '../subscribe-management/subscribe-management.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-layout',
@@ -17,18 +18,22 @@ export class LayoutComponent
 {
   isLoggedIn: boolean = false;
   isAdmin: boolean = false;
+  private destroyRef = inject(DestroyRef);
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {
     super();
   }
 
   ngOnInit() {
-    const sub = this.router.events.subscribe(() => {
-      this.checkLoginStatus();
-      this.checkRole();
-    });
-
-    this.addSubscription(sub);
+    const sub = this.router.events
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.checkLoginStatus();
+        this.checkRole();
+      });
   }
 
   checkRole() {
