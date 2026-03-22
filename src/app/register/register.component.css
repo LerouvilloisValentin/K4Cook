@@ -1,26 +1,20 @@
-.main{
-  display: flex;
-  justify-items: center;
-  justify-content: center;
-  padding-top: 10px;
-}
-
 .element{
   display: flex;
+  flex-wrap: nowrap;
+  gap: 40px;
   justify-content: space-around;
-  padding-top: 10px;
-  width: 80vw;
+  padding-bottom: 25px;
 }
 
 .choice-btn {
-  padding: 20px 40px;
-  font-size: 18px;
-  border-radius: 12px;
+  padding: 20px 10px;
+  font-size: 15px;
+  border-radius: 8px;
   border: 2px solid #e5e7eb;
   background-color: white;
   cursor: pointer;
   transition: all 0.3s ease;
-  min-width: 220px;
+  min-width: 160px;
 }
 
 /* Hover */
@@ -36,32 +30,3 @@
   color: white;
   border-color: #3b82f6;
 }
-
-.nav-container {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 40px;
-}
-
-.nav-btn {
-  padding: 4px 4px;
-  font-size: 18px;
-  border-radius: 5px;
-  border: 2px solid #e5e7eb;
-  background-color: #eee;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-/* Bouton principal */
-.nav-btn.primary {
-  background-color: #3b82f6;
-  color: white;
-}
-
-/* Bouton secondaire */
-.nav-btn.secondary {
-  background-color: #e5e7eb;
-  color: #374151;
-}
-

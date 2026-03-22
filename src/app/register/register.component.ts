@@ -31,7 +31,6 @@ export class RegisterComponent
     firstName: ['', Validators.required],
   });
   emailAlreadyUsed = false;
-  step = 1;
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
@@ -46,14 +45,6 @@ export class RegisterComponent
     const mail = this.userManagementService.getAllMail().subscribe((value) => {
       console.log(value);
     });
-  }
-
-  next() {
-    this.step++;
-  }
-
-  previous() {
-    this.step--;
   }
 
   isFormNameInvalid(name: string) {

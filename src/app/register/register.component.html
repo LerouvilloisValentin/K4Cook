@@ -1,8 +1,12 @@
-<!-- <form
+<form
   [formGroup]="registerForm"
   (ngSubmit)="submit()"
   class="max-w-sm mx-auto pt-28"
 >
+  <div class="element">
+    <button class="choice-btn">Client</button>
+    <button class="choice-btn">Cuisinier à domicile</button>
+  </div>
   <div class="mb-5">
     <label for="email" class="block mb-2 text-sm font-medium text-gray-900"
       >Email
@@ -14,22 +18,24 @@
       (focus)="resetEmailAlreadyUsed()"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
     />
-    @if(emailAlreadyUsed){
-    <div class="mt-1">
-      <span class="text-red-700 text-sm">Cet email est déjà utilisé</span>
-    </div>
-    } @if(isFormNameInvalid("email")){
-    <div class="flex mt-2">
-      @if(hasNameError("email", "email")){
-      <div>
-        <span class="text-red-700 text-sm">Format invalide</span>
+    @if (emailAlreadyUsed) {
+      <div class="mt-1">
+        <span class="text-red-700 text-sm">Cet email est déjà utilisé</span>
       </div>
-      } @if(hasNameError("email", "required")){
-      <div>
-        <span class="text-red-700 text-sm">Requis</span>
+    }
+    @if (isFormNameInvalid("email")) {
+      <div class="flex mt-2">
+        @if (hasNameError("email", "email")) {
+          <div>
+            <span class="text-red-700 text-sm">Format invalide</span>
+          </div>
+        }
+        @if (hasNameError("email", "required")) {
+          <div>
+            <span class="text-red-700 text-sm">Requis</span>
+          </div>
+        }
       </div>
-      }
-    </div>
     }
   </div>
 
@@ -43,20 +49,23 @@
       formControlName="password"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
     />
-    @if(isFormNameInvalid("password")){
-    <div class="flex mt-2 flex-col gap-1">
-      @if(hasNameError("password", "required")){
-      <span class="text-red-700 text-sm">Requis</span>
-      } @if(hasNameError("password", "minlength")){
-      <span class="text-red-700 text-sm"
-        >Votre mot de passe doit contenir au minimum 8 caractères</span
-      >
-      } @if(hasNameError("password", "maxlength")){
-      <span class="text-red-700 text-sm"
-        >Votre mot de passe ne peut contenir que 24 caractères au maximum</span
-      >
-      }
-    </div>
+    @if (isFormNameInvalid("password")) {
+      <div class="flex mt-2 flex-col gap-1">
+        @if (hasNameError("password", "required")) {
+          <span class="text-red-700 text-sm">Requis</span>
+        }
+        @if (hasNameError("password", "minlength")) {
+          <span class="text-red-700 text-sm"
+            >Votre mot de passe doit contenir au minimum 8 caractères</span
+          >
+        }
+        @if (hasNameError("password", "maxlength")) {
+          <span class="text-red-700 text-sm"
+            >Votre mot de passe ne peut contenir que 24 caractères au
+            maximum</span
+          >
+        }
+      </div>
     }
   </div>
 
@@ -70,14 +79,14 @@
       formControlName="lastName"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
     />
-    @if(isFormNameInvalid("lastName")){
-    <div class="flex mt-2">
-      @if(hasNameError("lastName", "required")){
-      <div>
-        <span class="text-red-700 text-sm">Requis</span>
+    @if (isFormNameInvalid("lastName")) {
+      <div class="flex mt-2">
+        @if (hasNameError("lastName", "required")) {
+          <div>
+            <span class="text-red-700 text-sm">Requis</span>
+          </div>
+        }
       </div>
-      }
-    </div>
     }
   </div>
 
@@ -91,14 +100,34 @@
       formControlName="firstName"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
     />
-    @if(isFormNameInvalid("firstName")){
-    <div class="flex mt-2">
-      @if(hasNameError("firstName", "required")){
-      <div>
-        <span class="text-red-700 text-sm">Requis</span>
+    @if (isFormNameInvalid("firstName")) {
+      <div class="flex mt-2">
+        @if (hasNameError("firstName", "required")) {
+          <div>
+            <span class="text-red-700 text-sm">Requis</span>
+          </div>
+        }
       </div>
-      }
-    </div>
+    }
+  </div>
+  <div class="mb-5">
+    <label for="postalCode" class="block mb-2 text-sm font-medium text-gray-900"
+      >Code postal
+    </label>
+    <input
+      id="postalCode"
+      type="text"
+      formControlName="postalCode"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+    />
+    @if (isFormNameInvalid("postalCode")) {
+      <div class="flex mt-2">
+        @if (hasNameError("postalCode", "required")) {
+          <div>
+            <span class="text-red-700 text-sm">Requis</span>
+          </div>
+        }
+      </div>
     }
   </div>
 
@@ -111,32 +140,4 @@
       S'enregistrer
     </button>
   </div>
-</form> -->
-
-
-<div [ngSwitch]="step">
-
-  <div *ngSwitchCase="1"
-  class="main">
-  <div>
-    <p>Je m'inscris en tant que :</p>
-    <div class="element">
-      <button class="choice-btn" >Client</button>
-      <button class="choice-btn">Cuisinier à domicile</button>
-    </div>
-  </div>
-  </div>
-
-  <div *ngSwitchCase="2">
-    <h2>Étape 2</h2>
-  </div>
-
-  <div *ngSwitchCase="3">
-    <h2>Étape 3</h2>
-  </div>
-
-</div>
-<div class="container-button">
-  <button class="nav-btn primary" (click)="previous()" [disabled]="step === 1">Précédent</button>
-  <button class="nav-btn secondary" (click)="next()" [disabled]="step === 3">Suivant</button>
-</div>
+</form>
