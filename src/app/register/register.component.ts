@@ -28,7 +28,7 @@ export class RegisterComponent
     ],
     lastName: ['', Validators.required],
     firstName: ['', Validators.required],
-    postalCode: ['', Validators.required],
+    postalCode: ['', [Validators.required, Validators.pattern(/^[0-9]{5}$/)]],
     role: ['', Validators.required],
   });
   emailAlreadyUsed = false;

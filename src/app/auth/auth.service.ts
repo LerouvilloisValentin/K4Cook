@@ -53,7 +53,11 @@ export class AuthService {
     password: string;
     lastName: string;
     firstName: string;
+    postalCode: string;
+    role: string;
   }) {
+    console.log('body', body);
+
     return this.http.post(`${this.url}/register`, body).pipe(
       tap((value: any) => {
         if (value.token) {
