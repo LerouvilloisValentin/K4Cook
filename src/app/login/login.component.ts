@@ -8,6 +8,7 @@ import { AuthService } from '../auth/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { SubscribeManagementComponent } from '../subscribe-management/subscribe-management.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { UserSettingService } from '../user-setting.service';
 
 @Component({
   selector: 'app-login',
@@ -27,6 +28,7 @@ export class LoginComponent extends SubscribeManagementComponent {
   constructor(
     private formBuilder: NonNullableFormBuilder,
     private authService: AuthService,
+    private userSettingService: UserSettingService,
     private router: Router,
   ) {
     super();
@@ -54,6 +56,7 @@ export class LoginComponent extends SubscribeManagementComponent {
         next: () => {
           this.loginError = null;
           this.router.navigateByUrl('/home');
+          this.userSettingService.getUser().subscribe();
         },
         error: (error) => {
           if (error.status === 401 || 403) {

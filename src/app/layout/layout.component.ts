@@ -4,6 +4,7 @@ import { RouterLink, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { SubscribeManagementComponent } from '../subscribe-management/subscribe-management.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { UserSettingService } from '../user-setting.service';
 
 @Component({
   selector: 'app-layout',
@@ -18,10 +19,13 @@ export class LayoutComponent
 {
   isLoggedIn: boolean = false;
   isAdmin: boolean = false;
+  firstName: string = '';
+  lastName: string = '';
   private destroyRef = inject(DestroyRef);
 
   constructor(
     private authService: AuthService,
+    private userSettingService: UserSettingService,
     private router: Router,
   ) {
     super();
@@ -34,6 +38,12 @@ export class LayoutComponent
         this.checkLoginStatus();
         this.checkRole();
       });
+    this.userSettingService.user$.subscribe((user) => {
+      if (user) {
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
+      }
+    });
   }
 
   checkRole() {

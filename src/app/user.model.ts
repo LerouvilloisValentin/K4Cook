@@ -6,6 +6,8 @@ export interface User {
   lastName: string;
   suspendedTill: Date;
   suspended: boolean;
+  postalCode: string;
+  role: string;
 }
 
 export interface Message {

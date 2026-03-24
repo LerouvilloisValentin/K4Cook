@@ -79,6 +79,8 @@
           <!-- Afficher seulement si connecté -->
            <div class="mt-2">
           <li *ngIf="isLoggedIn">
+            <p>{{firstName}}</p>
+            <p>{{lastName}}</p>
             <a
               (click)="logout()"
               class="bg-gray-800 hover:bg-red-800 disabled:bg-grey-800 cursor-pointer text-white pb-2 py-1 px-2 rounded"
