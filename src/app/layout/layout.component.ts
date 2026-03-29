@@ -21,6 +21,7 @@ export class LayoutComponent
   isAdmin: boolean = false;
   firstName: string = '';
   lastName: string = '';
+  initials = '';
   private destroyRef = inject(DestroyRef);
 
   constructor(
@@ -40,8 +41,9 @@ export class LayoutComponent
       });
     this.userSettingService.user$.subscribe((user) => {
       if (user) {
-        this.firstName = user.firstName;
-        this.lastName = user.lastName;
+        this.initials =
+          (user.firstName?.charAt(0).toLocaleUpperCase() || '') +
+          (user.lastName?.charAt(0).toLocaleUpperCase() || '');
       }
     });
   }
