@@ -12,85 +12,87 @@
           >
         </a>
         <a
-        *ngIf="!isLoggedIn"
-        [routerLink]="['/home']"
-        class="flex items-center space-x-3 rtl:space-x-reverse mt-2"
-
+          *ngIf="!isLoggedIn"
+          [routerLink]="['/home']"
+          class="flex items-center space-x-3 rtl:space-x-reverse mt-2"
         >
           <span class="text-sm font-semibold whitespace-nowrap underline"
-          >Accueil</span
+            >Accueil</span
           >
         </a>
       </div>
-      <div class="flex justify-center mr-16 ">
-
+      <div class="flex justify-center mr-16">
         <ul class="font-medium flex flex-row space-x-2">
-        <div class="flex flex-start">
-          <li>
-            <a
-            *ngIf="isLoggedIn"
-              [routerLink]="['/home']"
-              routerLinkActive="font-bold underline"
-              class="block py-2 px-3 rounded "
-              >Accueil</a
-            >
-          </li>
-          </div>
-          <li>
-          <a
-          *ngIf="isLoggedIn"
-            [routerLink]="['/setting']"
-            routerLinkActive="font-bold underline"
-            class="block py-2 px-3 rounded "
-            >Paramètre</a
-          >
-        </li>
-            <li *ngIf="isAdmin">
+          <div class="flex flex-start">
+            <li>
               <a
-                [routerLink]="['/userManagement']"
+                *ngIf="isLoggedIn"
+                [routerLink]="['/home']"
                 routerLinkActive="font-bold underline"
                 class="block py-2 px-3 rounded"
-                >Gestion utilisateur</a
+                >Accueil</a
               >
+            </li>
+          </div>
+          <li>
+            <a
+              *ngIf="isLoggedIn"
+              [routerLink]="['/setting']"
+              routerLinkActive="font-bold underline"
+              class="block py-2 px-3 rounded"
+              >Paramètre</a
+            >
           </li>
-          </ul>
-        </div>
-          <div class="flex justify-end mr-16">
-            <ul class="font-medium flex flex-row space-x-4">
+          <li *ngIf="isAdmin">
+            <a
+              [routerLink]="['/userManagement']"
+              routerLinkActive="font-bold underline"
+              class="block py-2 px-3 rounded"
+              >Gestion utilisateur</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="flex justify-end mr-16">
+        <ul class="font-medium flex flex-row space-x-4">
           <!-- Afficher seulement si non connecté -->
           <li *ngIf="!isLoggedIn">
             <a
               [routerLink]="['/login']"
               routerLinkActive="font-bold"
               [routerLinkActiveOptions]="{ exact: true }"
-              class="block py-2 px-3 rounded "
+              class="block py-2 px-3 rounded"
               >Se connecter</a
             >
           </li>
           <li *ngIf="!isLoggedIn">
             <a
               [routerLink]="['/register']"
-              routerLinkActive ="font-bold"
+              routerLinkActive="font-bold"
               [routerLinkActiveOptions]="{ exact: true }"
-              class="block py-2 px-3 rounded "
+              class="block py-2 px-3 rounded"
               >S'enregistrer</a
             >
           </li>
           <!-- Afficher seulement si connecté -->
-           <div class="mt-2">
-          <li *ngIf="isLoggedIn" class="container-button">
-            <p class="w-10 h-10 mb-1 flex items-center justify-center rounded-full bg-blue-500 text-white font-bold">{{initials}}</p>
-            <a
-              (click)="logout()"
-              class="bg-gray-800 hover:bg-red-800 disabled:bg-grey-800 cursor-pointer text-white pb-2 py-1 px-2 rounded"
-              >Se déconnecter</a
-            >
-          </li>
-        </div>
+          <div class="mt-2">
+            @if (isLoggedIn) {
+              <li class="container-button">
+                <p
+                  class="w-10 h-10 mb-1 flex items-center justify-center rounded-full bg-blue-500 text-white font-bold"
+                >
+                  {{ initials }}
+                </p>
+                <a
+                  (click)="logout()"
+                  class="bg-gray-800 hover:bg-red-800 disabled:bg-grey-800 cursor-pointer text-white pb-2 py-1 px-2 rounded"
+                  >Se déconnecter</a
+                >
+              </li>
+            }
+          </div>
         </ul>
-        </div>
-
       </div>
-
+    </div>
   </nav>
 </header>

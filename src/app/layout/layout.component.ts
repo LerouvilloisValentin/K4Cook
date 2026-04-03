@@ -39,7 +39,8 @@ export class LayoutComponent
         this.checkLoginStatus();
         this.checkRole();
       });
-    this.userSettingService.user$.subscribe((user) => {
+
+    this.userSettingService.getUser().subscribe((user) => {
       if (user) {
         this.initials =
           (user.firstName?.charAt(0).toLocaleUpperCase() || '') +
