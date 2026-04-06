@@ -40,13 +40,18 @@ export class LayoutComponent
         this.checkRole();
       });
 
-    this.userSettingService.getUser().subscribe((user) => {
-      if (user) {
-        this.initials =
-          (user.firstName?.charAt(0).toLocaleUpperCase() || '') +
-          (user.lastName?.charAt(0).toLocaleUpperCase() || '');
-      }
-    });
+    this.userSettingService.user$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((user) => {
+        if (user) {
+          this.initials =
+            (user.firstName?.charAt(0).toLocaleUpperCase() || '') +
+            (user.lastName?.charAt(0).toLocaleUpperCase() || '');
+        }
+      });
+    if (this.authService.getAuthToken()) {
+      this.userSettingService.getUser().subscribe();
+    }
   }
 
   checkRole() {

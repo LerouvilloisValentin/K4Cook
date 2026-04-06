@@ -9,6 +9,7 @@ import { SubscribeManagementComponent } from '../subscribe-management/subscribe-
 import { Router } from '@angular/router';
 import { UserManagementService } from '../user-management.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { UserSettingService } from '../user-setting.service';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -39,6 +40,7 @@ export class RegisterComponent
     private formBuilder: NonNullableFormBuilder,
     private authService: AuthService,
     private userManagementService: UserManagementService,
+    private userSettingService: UserSettingService,
     private router: Router,
   ) {
     super();
@@ -83,6 +85,8 @@ export class RegisterComponent
             .register(registerBody)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => {
+              this.userSettingService.setUser(null);
+              this.userSettingService.getUser().subscribe();
               this.router.navigateByUrl('/');
             });
         }

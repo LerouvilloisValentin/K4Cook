@@ -56,6 +56,7 @@ export class LoginComponent extends SubscribeManagementComponent {
         next: () => {
           this.loginError = null;
           this.router.navigateByUrl('/home');
+          this.userSettingService.setUser(null);
           this.userSettingService.getUser().subscribe();
         },
         error: (error) => {
