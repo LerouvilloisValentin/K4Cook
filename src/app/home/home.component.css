@@ -1,0 +1,25 @@
+.container_home {
+  display: block;
+  justify-items: center;
+  padding-top: 50px;
+}
+
+.list_users {
+  display: flex;
+  justify-content: center;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  margin-bottom: 35px;
+  background-color: rgb(59 130 246);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 60%;
+  border-radius: 15px;
+}
+
+.list_users:hover {
+  background-color: rgb(77, 148, 196);
+  /* border-color: #3b82f6; */
+  transform: translateY(-3px);
+}

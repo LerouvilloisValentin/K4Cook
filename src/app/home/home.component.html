@@ -1,1 +1,8 @@
-<p>home works!</p>
+<div class="container_home">
+  @for(user of arrayOfUsers; track $index){
+    <div class="list_users">
+      <p>{{user.firstName}} {{user.lastName}}</p>
+    </div>
+
+  }
+</div>
