@@ -5,6 +5,7 @@
 >
   <div class="element">
     <button
+      type="button"
       (click)="clientChoice()"
       class="choice-btn"
       [class.active]="selectedRole === 'client'"
@@ -12,6 +13,7 @@
       Client
     </button>
     <button
+      type="button"
       (click)="cookChoice()"
       class="choice-btn"
       [class.active]="selectedRole === 'cook'"
@@ -135,13 +137,15 @@
       formControlName="postalCode"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
     />
-      <div class="flex mt-2">
-        @if (hasNameError("postalCode", "pattern")) {
-          <div>
-            <span class="text-red-700 text-sm">Le code postal n'est pas en bon format</span>
-          </div>
-        }
-      </div>
+    <div class="flex mt-2">
+      @if (hasNameError("postalCode", "pattern")) {
+        <div>
+          <span class="text-red-700 text-sm"
+            >Le code postal n'est pas en bon format</span
+          >
+        </div>
+      }
+    </div>
   </div>
 
   <div class="flex justify-end pr-4 pt-4">
